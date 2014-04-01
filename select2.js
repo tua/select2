@@ -2081,6 +2081,14 @@ the specific language governing permissions and limitations under the Apache Lic
                 // without this the search field loses focus which is annoying
                 if (document.activeElement === this.body().get(0)) {
                     window.setTimeout(this.bind(function() {
+
+                        // avoid auto focus when manually close
+                        if (this.opts.closeOnManual) {
+                            if (!this.opts.canCloseWhenManual) {
+                                return;
+                            }
+                        }
+                        
                         if (this.opened()) {
                             this.search.focus();
                         }
