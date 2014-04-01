@@ -1381,8 +1381,20 @@ the specific language governing permissions and limitations under the Apache Lic
 
         },
 
+        // manually close 
+        canCloseWhenManual: function (value) {
+            this.opts.canCloseWhenManual = value;
+        },
+
         // abstract
         close: function () {
+            if (this.opts.closeOnManual) {
+                if (!this.opts.canCloseWhenManual) {
+                    return;
+                }
+            }
+
+
             if (!this.opened()) return;
 
             var cid = this.containerId,
@@ -3257,7 +3269,7 @@ the specific language governing permissions and limitations under the Apache Lic
             opts,
             select2,
             method, value, multiple,
-            allowedMethods = ["val", "destroy", "opened", "open", "close", "focus", "isFocused", "container", "dropdown", "onSortStart", "onSortEnd", "enable", "disable", "readonly", "positionDropdown", "data", "search"],
+            allowedMethods = ["val", "destroy", "opened", "open", "close", "focus", "isFocused", "container", "dropdown", "onSortStart", "onSortEnd", "enable", "disable", "readonly", "positionDropdown", "data", "search", "canCloseWhenManual"],
             valueMethods = ["opened", "isFocused", "container", "dropdown"],
             propertyMethods = ["val", "data"],
             methodsMap = { search: "externalSearch" };
@@ -3313,6 +3325,8 @@ the specific language governing permissions and limitations under the Apache Lic
         width: "copy",
         loadMorePadding: 0,
         closeOnSelect: true,
+        closeOnManual: false,
+        canCloseWhenManual: true,
         openOnEnter: true,
         containerCss: {},
         dropdownCss: {},
